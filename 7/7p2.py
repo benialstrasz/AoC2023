@@ -32,28 +32,29 @@ def cardValue(card):
         return 13
     elif card == "A":
         return 14
-    print("SOMETHING WENT WRONG.")
-    print(card)
-    exit
-    return 0
     
 def handBaseStrength(hand):
     strength = 0
     if len(hand) != 5:
         return 0
     x = Counter(hand)
+    y = Counter(hand.replace("J",""))
     mcf = x.most_common()[0][1] # mostCommonFrequency
+    mcfnj = 0
+    if len(y.most_common()) > 0:
+        mcfnj = y.most_common()[0][1]
+    jf = x['J']
     mcc = x.most_common()[0][0] # mostCommonCard
-    if mcf == 5: # Five of a kind
+    if (mcfnj + jf) == 5 or jf == 5: # Five of a kind
         strength = strength + 60000000000
-    elif mcf == 4: # Four of a kind
+    elif (mcfnj + jf == 4 or jf == 4): # Four of a kind
         strength = strength + 50000000000
-    elif mcf == 3:
-        if x.most_common()[1][1] == 2: # Full house!
+    elif mcfnj + jf == 3:
+        if x.most_common()[1][1] == 2 and jf != 2: # Full house!
             strength = strength + 40000000000
         else: # Three of a kind
             strength = strength + 30000000000
-    elif mcf == 2:
+    elif mcfnj + jf == 2:
         if x.most_common()[1][1] == 2: # Two pair!
             strength = strength + 20000000000
         else: # one pair
@@ -77,9 +78,9 @@ for game in games:
 
 sorted_games = sorted(games, key=lambda x: x.value)
 
-#print("sorted:\n")
-#for game in sorted_games:
-#    print(f"Hand: {game.hand}, Bid: {game.bid}, Value: {game.value}")
+print("sorted:\n")
+for game in sorted_games:
+    print(f"Hand: {game.hand}, Bid: {game.bid}, Value: {game.value}")
 
 sum = 0
 for i, game in enumerate(sorted_games):

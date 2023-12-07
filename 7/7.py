@@ -6,6 +6,7 @@ class Game:
         self.bid = int(bid)
         self.value = None
     def calculate_value(self):
+        # Total value of your hand cards first considering combinations and then the values of the single cards in order. 
         self.value = handBaseStrength(self.hand) + handCardValue(self.hand)
 
 def read_input_file():
@@ -30,10 +31,6 @@ def cardValue(card):
         return 13
     elif card == "A":
         return 14
-    print("SOMETHING WENT WRONG.")
-    print(card)
-    exit
-    return 0
     
 def handBaseStrength(hand):
     strength = 0
@@ -64,6 +61,10 @@ def handCardValue(hand):
         return 0
     strength = cardValue(hand[0]) * 10**8 + cardValue(hand[1]) * 10**6 + cardValue(hand[2]) * 10**4 + cardValue(hand[3]) * 10**2 + cardValue(hand[4])
     return strength
+
+# base strength is most important and has value x*10^9
+# then the value of the first card hand[0] multiplied by 10^8
+# then the next card * 10^6 etc...
 
 games = read_input_file()
 
