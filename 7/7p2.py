@@ -1,7 +1,5 @@
 from collections import Counter
 
-##### NOT YET SOLVED
-
 class Game:
     def __init__(self, hand, bid):
         self.hand = hand
@@ -38,13 +36,11 @@ def handBaseStrength(hand):
     if len(hand) != 5:
         return 0
     x = Counter(hand)
-    y = Counter(hand.replace("J",""))
-    mcf = x.most_common()[0][1] # mostCommonFrequency
-    mcfnj = 0
+    y = Counter(hand.replace("J","")) # hand without J
+    mcfnj = 0 #mostCommonFrequencyNonJoker
     if len(y.most_common()) > 0:
         mcfnj = y.most_common()[0][1]
-    jf = x['J']
-    mcc = x.most_common()[0][0] # mostCommonCard
+    jf = x['J'] # Joker frequency
     if (mcfnj + jf) == 5 or jf == 5: # Five of a kind
         strength = strength + 60000000000
     elif (mcfnj + jf == 4 or jf == 4): # Four of a kind
